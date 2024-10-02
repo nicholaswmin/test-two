@@ -27,12 +27,10 @@ jobs:
       
       - name: Set Git user
         run: |
-          usern="@${{ github.actor }}"
-          email="${{ github.actor_id }}+${actor}@users.noreply.github.com"
+          noreply="@users.noreply.github.com"
 
-          git config --global pull.ff only
-          git config --global user.name  "$usern"
-          git config --global user.email "$email"
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@${noreply}"
       
       - name: Bump package version
         run: |
@@ -44,7 +42,7 @@ jobs:
       - name: Publish with provenance
         run: npm publish --provenance --access public
  
-      - name: Add npm URL to Release notes
+      - name: Add npm package to Release notes
         run: |
           pkg_name=$(npm pkg get name | tr -d '"')
           base_link="https://npmjs.com/package/${pkg_name}"
