@@ -3,8 +3,7 @@
 
 name: release:publish
 env:
-  NAME:
-  RELEASE_BODY: ${{ github.event.release.body }}"
+  RELEASE_BODY: ${{ github.event.release.body }}
   RELEASE_VERSION: ${{ github.event.release.tag_name }}
 on:
   release:
@@ -52,7 +51,7 @@ jobs:
           pkg_link="https://npmjs.com/package/${pkg_name}?activeTab=versions"
 
           markdown="Published at npm: [${pkg_name}](${pkg_link})"
-          new_notes=$(printf '${markdown}\n\n${RELEASE_BODY}')
+          new_notes=$(printf "${markdown}\n\n${RELEASE_BODY}")
 
           gh release edit $RELEASE_VERSION -n "${new_notes}"
         env:
