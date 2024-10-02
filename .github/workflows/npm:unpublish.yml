@@ -1,14 +1,14 @@
 # Unpublish from npm if Github Release is deleted or hidden.
 # Requires: `NPM_TOKEN` as secret
 
-name: release:unpublish
+name: npm:unpublish
 on:
   release:
     types:
       - deleted
       - unpublished
 jobs:
-  unpublish:
+  npm-unpublish:
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -1,18 +1,18 @@
 # Matches package version to release version & commits the change.
 # Then publishes to npm with build provenance.
 
-name: release:publish
+name: npm:publish
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  RELEASE_BODY: ${{ github.event.release.body }}
   RELEASE_VERSION: ${{ github.event.release.tag_name }}
+  RELEASE_BODY: ${{ github.event.release.body }}
 on:
   release:
       types:
         - published
       
 jobs:
-  publish:
+  npm-publish:
     runs-on: ubuntu-latest
     permissions:
       contents: write
