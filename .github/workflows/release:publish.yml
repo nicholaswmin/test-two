@@ -31,7 +31,7 @@ jobs:
           git config --global user.name  "$usern"
           git config --global user.email "$email"
       
-      - name: Bump package version to release version
+      - name: Bump package to release version
         run: |
           npm version $RELEASE_VERSION -m "build: bump %s" --allow-same-version
 
