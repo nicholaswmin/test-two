@@ -28,8 +28,7 @@ jobs:
           git config --global user.name 'CI/CD publish'
           git config --global user.email 'support@github.com'
           
-          npm version ${{ github.event.release.tag_name }} -m \ 
-          "build: bump version: %s"
+          npm version ${{ github.event.release.tag_name }} -m "build: bump %s"
 
           git pull origin HEAD:main
           git push origin HEAD:main
