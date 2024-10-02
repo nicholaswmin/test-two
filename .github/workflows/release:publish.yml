@@ -31,13 +31,11 @@ jobs:
           git config --global user.name  "$usern"
           git config --global user.email "$email"
 
-      - run: npm i --package-lock-only
-      - run: npm ci
-
       - run: |
           npm version $RELEASE_VERSION -m "build: bump %s" --allow-same-version
 
-          git pull origin HEAD:main
-          git push origin HEAD:main
+          git fetch origin
+          git rebase --strategy-option=ours origin/main
+          git push
 
       - run: npm publish --provenance --access public
