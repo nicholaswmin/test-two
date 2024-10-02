@@ -21,18 +21,21 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           
       - name: Install dependencies
-        run: npm i
+        run: npm ci
 
-      - name: Bump version to release version
+      - name: Bump to release version
+        env: 
+          VERSION: ${{ github.event.release.tag_name }}
         run: |
           git config --global user.name 'CI/CD publish'
           git config --global user.email 'support@github.com'
           
-          npm version ${{ github.event.release.tag_name }} -m "build: bump %s"
+          $(npm version $VERSION -m "build: bump TO: %s" --allow-same-version) 
 
           git pull origin HEAD:main
           git push origin HEAD:main
 
-      - run: npm publish --provenance --access public
+      - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
