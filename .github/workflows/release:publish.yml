@@ -24,9 +24,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - run: |
-          addrs="@users.noreply.github.com"
           usern="${{ github.actor }}"
-          email="${{ github.actor_id }}+${actor}${addrs}"
+          email="${{ github.actor_id }}+${actor}@users.noreply.github.com"
 
           git config --global user.name  "$usern"
           git config --global user.email "$email"
