@@ -3,6 +3,7 @@
 
 name: release:publish
 env:
+  RELEASE_BODY: ${{ github.event.release.tag_name }}"
   RELEASE_VERSION: ${{ github.event.release.tag_name }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 on:
@@ -41,3 +42,6 @@ jobs:
       
       - name: Publish with provenance
         run: npm publish --provenance --access public
+        
+      - name: Append package url to release notes
+        run: gh release edit $RELEASE_VERSION -n "foo \n ${RELEASE_BODY}"
