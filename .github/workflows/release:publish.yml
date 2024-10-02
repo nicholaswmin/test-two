@@ -4,7 +4,6 @@
 name: release:publish
 env:
   RELEASE_BODY: ${{ github.event.release.body }}"
-  RELEASE_URL: https://www.npmjs.com/package/$(npm pkg get name | tr -d '"')
   RELEASE_VERSION: ${{ github.event.release.tag_name }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   GH_TOKEN: ${{ github.token }}
@@ -46,4 +45,7 @@ jobs:
         run: npm publish --provenance --access public
         
       - name: Append package url to release notes
-        run: gh release edit $RELEASE_VERSION -n "${RELEASE_URL}\n${RELEASE_BODY}"
+        run: |
+          NPM_URL="https://www.npmjs.com/package/$(npm pkg get name | tr -d '"')"
+          
+          gh release edit $RELEASE_VERSION -n "${NPM_URL}\n${RELEASE_BODY}"
