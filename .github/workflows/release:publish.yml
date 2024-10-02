@@ -30,7 +30,7 @@ jobs:
           git config --global user.name 'CI/CD publish'
           git config --global user.email 'support@github.com'
           
-          $(npm version $VERSION -m "build: bump TO: %s" --allow-same-version) 
+          npm version $VERSION -m "build: bump to: %s" --allow-same-version
 
           git pull origin HEAD:main
           git push origin HEAD:main
