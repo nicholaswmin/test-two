@@ -9,6 +9,9 @@ on:
       - published
 jobs:
   publish:
+    env:
+      VERSION: ${{ github.event.release.tag_name }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,23 +22,16 @@ jobs:
         with:
           node-version: 'latest'
           registry-url: 'https://registry.npmjs.org'
-          
-      - name: Install dependencies
-        run: npm ci
 
-      - name: Bump to release version
-        env: 
-          VERSION: ${{ github.event.release.tag_name }}
-        run: |
+      - run: npm ci
+
+      - run: |
           git config --global user.name 'CI/CD publish'
           git config --global user.email 'support@github.com'
           
-          npm version $VERSION -m "build: bump to: %s" --allow-same-version
+          npm version $VERSION -m "build: bump to %s" --allow-same-version
 
           git pull origin HEAD:main
           git push origin HEAD:main
 
-      - name: Publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public
+      - run: npm publish --provenance --access public
