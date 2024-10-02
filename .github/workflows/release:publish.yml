@@ -47,9 +47,10 @@ jobs:
       - name: Add npm URL to Release notes
         run: |
           pkg_name=$(npm pkg get name | tr -d '"')
-          pkg_link="https://npmjs.com/package/${pkg_name}?activeTab=versions"
+          base_link="https://npmjs.com/package/${pkg_name}"
+          prov_link="[provenance](${base_link}#provenance)"
 
-          markdown="Published at npm: [${pkg_name}](${pkg_link})"
+          markdown="Published: [${pkg_name}](${pkg_link}) with ${provenance}"
           new_notes=$(printf "${markdown}\n\n${RELEASE_BODY}")
 
           gh release edit $RELEASE_VERSION -n "${new_notes}"
