@@ -1,6 +1,6 @@
 {
   "name": "@nicholaswmin/test-two",
-  "version": "6.2.7",
+  "version": "6.2.8",
   "type": "module",
   "exports": "./src/index.js",
   "description": "A test-two module",
