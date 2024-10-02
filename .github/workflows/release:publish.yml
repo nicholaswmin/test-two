@@ -3,7 +3,7 @@
 
 name: release:publish
 env:
-  VERSION: ${{ github.event.release.tag_name }}
+  RELEASE_VERSION: ${{ github.event.release.tag_name }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 on:
   release:
@@ -23,13 +23,19 @@ jobs:
           node-version: 'latest'
           registry-url: 'https://registry.npmjs.org'
 
+      - run: |
+          addrs="@users.noreply.github.com"
+          usern="${{ github.actor }}"
+          email="${{ github.actor_id }}+${actor}${addrs}"
+
+          git config --global user.name  "$usern"
+          git config --global user.email "$email"
+
+      - run: npm i --package-lock-only
       - run: npm ci
 
       - run: |
-          git config --global user.name 'CI/CD'
-          git config --global user.email 'support@github.com'
-          
-          npm version $VERSION -m "build: bump to %s" --allow-same-version
+          npm version $RELEASE_VERSION -m "build: bump %s" --allow-same-version
 
           git pull origin HEAD:main
           git push origin HEAD:main
