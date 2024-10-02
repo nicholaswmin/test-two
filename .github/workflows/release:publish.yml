@@ -34,7 +34,7 @@ jobs:
           npm version $RELEASE_VERSION -m "build: bump %s" --allow-same-version
 
           git fetch origin HEAD:main
-          git rebase --strategy-option=ours origin/main
+          git rebase --strategy-option=ours origin HEAD:main
           git push origin HEAD:main
 
       - run: npm publish --provenance --access public
