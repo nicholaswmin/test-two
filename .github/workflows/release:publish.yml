@@ -47,7 +47,9 @@ jobs:
         
       - name: Append package url to release notes
         run: |
-          LINK="https://www.npmjs.com/package/$(npm pkg get name | tr -d '"')"
-          NEW_BODY=$(printf "${LINK}\n${RELEASE_BODY}")
+          name=$(npm pkg get name | tr -d '"')
+          link="https://www.npmjs.com/package/${name}"
+          mark=[npm: ${name}](link)
+          body=$(printf "${mark}\n${RELEASE_BODY}")
 
-          gh release edit $RELEASE_VERSION -n "${NEW_BODY}"
+          gh release edit $RELEASE_VERSION -n "${body}"
