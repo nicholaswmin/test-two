@@ -6,6 +6,7 @@ env:
   RELEASE_BODY: ${{ github.event.release.tag_name }}"
   RELEASE_VERSION: ${{ github.event.release.tag_name }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GH_TOKEN: ${{ github.token }}
 on:
   release:
       types:
