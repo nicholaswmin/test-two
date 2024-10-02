@@ -31,11 +31,12 @@ jobs:
           git config --global user.name  "$usern"
           git config --global user.email "$email"
       
-      - name: Bump package to release version
+      - name: Bump package version
         run: |
           npm version $RELEASE_VERSION -m "build: bump %s" --allow-same-version
 
           git pull origin HEAD:main
           git push origin HEAD:main
       
-      - run: npm publish --provenance --access public
+      - name: Publish with provenance
+        run: npm publish --provenance --access public
