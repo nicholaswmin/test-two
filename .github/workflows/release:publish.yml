@@ -51,7 +51,7 @@ jobs:
           pkg_link="[${pkg_name}](${pkg_link})"
           prov_link="[provenance](${base_link}#provenance)"
 
-          markdown="Published: ${pkg_link} with ${prov_link}."
+          markdown="Published: ${pkg_link} with build ${prov_link}."
           new_notes=$(printf "${markdown}\n\n${RELEASE_BODY}")
 
           gh release edit $RELEASE_VERSION -n "${new_notes}"
