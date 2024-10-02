@@ -48,7 +48,7 @@ jobs:
         run: |
           pkg_name=$(npm pkg get name | tr -d '"')
           base_link="https://npmjs.com/package/${pkg_name}"
-          pkg_link="[${pkg_name}](${pkg_link})"
+          pkg_link="[${pkg_name}](${base_link})"
           prov_link="[provenance](${base_link}#provenance)"
 
           markdown="Published: ${pkg_link} with build ${prov_link}."
