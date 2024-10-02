@@ -5,8 +5,6 @@ name: release:publish
 env:
   RELEASE_BODY: ${{ github.event.release.body }}"
   RELEASE_VERSION: ${{ github.event.release.tag_name }}
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  GH_TOKEN: ${{ github.token }}
 on:
   release:
       types:
@@ -44,7 +42,9 @@ jobs:
       
       - name: Publish with provenance
         run: npm publish --provenance --access public
-        
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+ 
       - name: Append package url to release notes
         run: |
           name=$(npm pkg get name | tr -d '"')
@@ -53,3 +53,5 @@ jobs:
           body=$(printf "${mark}\n\n${RELEASE_BODY}")
 
           gh release edit $RELEASE_VERSION -n "${body}"
+        env:
+          GH_TOKEN: ${{ github.token }}
