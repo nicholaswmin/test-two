@@ -1,17 +1,17 @@
 # Matches package version to release version & commits the change.
 # Then publishes to npm with build provenance.
-# Requires: `NPM_TOKEN` as secret
 
 name: release:publish
+env:
+  VERSION: ${{ github.event.release.tag_name }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 on:
   release:
     types:
       - published
+      
 jobs:
   publish:
-    env:
-      VERSION: ${{ github.event.release.tag_name }}
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,7 +26,7 @@ jobs:
       - run: npm ci
 
       - run: |
-          git config --global user.name 'CI/CD publish'
+          git config --global user.name 'CI/CD'
           git config --global user.email 'support@github.com'
           
           npm version $VERSION -m "build: bump to %s" --allow-same-version
