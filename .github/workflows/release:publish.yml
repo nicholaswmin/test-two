@@ -23,7 +23,7 @@ jobs:
           node-version: 'latest'
           registry-url: 'https://registry.npmjs.org'
       
-      - name: Set git user
+      - name: Set Git user
         run: |
           usern="${{ github.actor }}"
           email="${{ github.actor_id }}+${actor}@users.noreply.github.com"
