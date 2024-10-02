@@ -1,0 +1,20 @@
+{
+  "name": "@nicholaswmin/test-two",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": "./src/index.js",
+  "description": "A test-two module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "author": "@nicholaswmin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicholaswmin/test-two.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nicholaswmin/test-two/issues"
+  },
+  "homepage": "https://github.com/nicholaswmin/test-two#readme"
+}

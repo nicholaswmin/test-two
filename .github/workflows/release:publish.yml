@@ -1,0 +1,44 @@
+# Matches package version to release version & commits the change.
+# Then publishes to npm with build provenance.
+# Requires: `NPM_TOKEN` as secret
+
+name: release:publish
+on:
+  release:
+    types:
+      - published
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Match package to release version
+        run: npm pkg set version=$(echo "$TAG_NAME" | sed 's/[^0-9.]*//g')
+        env: 
+          TAG_NAME: ${{ github.event.release.tag_name }}
+
+      - name: Commit version bump
+        run: |
+          git config --global user.name 'CI release:publish'
+          git config --global user.email 'support@github.com'
+
+          git commit -am "build: bump package version to $TAG_NAME"
+          git pull origin HEAD:main
+          git push origin HEAD:main
+        env: 
+          TAG_NAME: ${{ github.event.release.tag_name }}
+
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
